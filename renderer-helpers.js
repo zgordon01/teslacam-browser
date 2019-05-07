@@ -40,8 +40,13 @@ exports.addElement = ( container, name, attributes ) =>
     return element
 }
 
-exports.addControls = ( container, videos, onCopy = null ) =>
+exports.addControls = ( container, videos, onCopy = null, onDelete ) =>
 {
+
+	let deleteButton = exports.addElement( container, "button", { type: "button", class: "delete" } );
+	deleteButton.innerText = "Delete";
+	deleteButton.addEventListener( "click", onDelete );
+
 	if ( onCopy )
 	{
 		var copy = exports.addElement( container, "button", { type: "button", class: "copy" } )

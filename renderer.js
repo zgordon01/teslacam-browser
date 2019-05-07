@@ -136,12 +136,8 @@ ipcRenderer.on( "folders", ( event, folders ) =>
 
 var selectedFolderElement = null
 
-function loadFolder( folder, folderElement )
+function loadFolder( folder )
 {
-//	if ( selectedFolderElement ) selectedFolderElement.classList.remove( "selected" )
-
-//	selectedFolderElement = folderElement
-//	selectedFolderElement.classList.add( "selected" )
 
 	var element = document.getElementById( "videos" )
 
@@ -219,7 +215,12 @@ function loadFolder( folder, folderElement )
 					assignVideo( view )
 				}
 
-				helpers.addControls( controlsContainer, videos, ( e, ev ) => clipboard.writeText( views[ 0 ].file ) )
+				helpers.addControls( controlsContainer, videos, ( e, ev ) => clipboard.writeText( views[ 0 ].file ), () => {
+					views.forEach( view => {
+						fs.unlinkSync(view.file);
+					});
+					loadFolder(folder);
+				} )
 			}
 
 			addVideos( views )
